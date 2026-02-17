@@ -22,7 +22,7 @@
 
 - Parse **PcaAppLaunchDic.txt** (LAD) for application launch history.
 - Parse **PcaGeneralDbx.txt** (GDB) for compatibility insights.
-- **Windows 11 22H2+ Support**: Specifically handles the text-based artifact format found in newer Windows 11 builds (22621+).
+- **Windows 11 22H2+ Support**: Specifically handles the text-based artifact format found in Windows 11 (22621+).
 
 #### Metadata Enrichment
 
