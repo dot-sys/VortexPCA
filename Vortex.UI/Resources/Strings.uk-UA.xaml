@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main Window -->
+    <system:String x:Key="Language">Мова</system:String>
+    <system:String x:Key="Refresh">Оновити</system:String>
+    <system:String x:Key="Minimize">Згорнути</system:String>
+    <system:String x:Key="Close">Закрити</system:String>
+
+    <!-- Welcome View -->
+	<system:String x:Key="VortexViewer">Vortex PCA Analyzer</system:String>
+    <system:String x:Key="StartTrace">Почати Аналіз</system:String>
+
+    <!-- Analysis Status Messages -->
+    <system:String x:Key="StartingAnalysis">Початок Аналізу</system:String>
+    <system:String x:Key="ParsingLocalPCAEntries">Парсинг Локальних PCA Записів</system:String>
+    <system:String x:Key="SearchingUSNJournal">Пошук у USN Журналі Записів</system:String>
+    <system:String x:Key="FetchingMetadata">Отримання Метаданих Записів</system:String>
+    <system:String x:Key="FinishedAnalysis">Аналіз Завершено за {0} Секунд</system:String>
+
+    <!-- PCA Views - Detail Grids -->
+    <system:String x:Key="Value">Значення</system:String>
+    <system:String x:Key="Info">Інформація</system:String>
+
+    <!-- Context Menu -->
+    <system:String x:Key="CopyValue">Копіювати Значення</system:String>
+    <system:String x:Key="CopyRow">Копіювати Рядок</system:String>
+
+    <!-- Error Messages -->
+    <system:String x:Key="GeneralParsingError">Загальна Помилка Парсингу</system:String>
+    <system:String x:Key="IncorrectWindowsVersion">Версія Windows - Ця програма працює тільки для Win11 22H2 і вище</system:String>
+    <system:String x:Key="PCAFilesNotFound">PCA файли не знайдено</system:String>
+
+    <!-- PCA GDB View -->
+    <system:String x:Key="PCAGDBTitle">PCA GDB Записи</system:String>
+
+    <!-- PCA LAD View -->
+    <system:String x:Key="PCALADTitle">PCA LAD Записи</system:String>
+    <system:String x:Key="LastExecutedTimeUTC">Останній Час Виконання (UTC)</system:String>
+    <system:String x:Key="LastExecutedTimeLocal">Останній Час Виконання (Місцевий)</system:String>
+    
+    <!-- Time Display ComboBox -->
+    <system:String x:Key="ShowLocalTime">Показати Місцевий Час</system:String>
+    <system:String x:Key="ShowUTCTime">Показати UTC Час</system:String>
+    <system:String x:Key="ShowBoth">Показати Обидва</system:String>
+    
+    <!-- Search Column ComboBox -->
+    <system:String x:Key="Timestamp">Час</system:String>
+    <system:String x:Key="ExecutedTime">Час Виконання</system:String>
+    <system:String x:Key="FullPath">Повний Шлях</system:String>
+    <system:String x:Key="EntryType">Тип Запису</system:String>
+    <system:String x:Key="ProcessName">Ім'я Процесу</system:String>
+    <system:String x:Key="Publisher">Видавець</system:String>
+    <system:String x:Key="Version">Версія</system:String>
+    <system:String x:Key="Status">Статус</system:String>
+    <system:String x:Key="Signature">Підпис</system:String>
+    <system:String x:Key="FoundInUSN">Знайдено в USN</system:String>
+    
+    <!-- Search and Filter Controls -->
+    <system:String x:Key="SearchBy">Пошук за...</system:String>
+    <system:String x:Key="SearchBySelectedColumn">Пошук за обраним стовпцем</system:String>
+    <system:String x:Key="MinimumFileSizeMB">Мінімальний розмір файлу в МБ</system:String>
+    <system:String x:Key="MaximumFileSizeMB">Максимальний розмір файлу в МБ</system:String>
+    <system:String x:Key="SizeGreater">Розмір &gt;</system:String>
+    <system:String x:Key="SizeLess">&lt; Розмір</system:String>
+    
+    <!-- Filter Checkboxes -->
+    <system:String x:Key="Today">Сьогодні</system:String>
+    <system:String x:Key="NoExe">Без exe</system:String>
+    <system:String x:Key="NoProcessName">Без Імені Процесу</system:String>
+    <system:String x:Key="NoPublisher">Без Видавця</system:String>
+    <system:String x:Key="NoVersionInfo">Без Інформації про Версію</system:String>
+    <system:String x:Key="NoDebugAllowed">Без Дозволу Налагодження</system:String>
+    <system:String x:Key="FilePresent">Файл Присутній</system:String>
+    <system:String x:Key="FileDeleted">Файл Видалено</system:String>
+    <system:String x:Key="FileUnsigned">Файл Без Підпису</system:String>
+    <system:String x:Key="FoundInUSNFilter">Знайдено в USN</system:String>
+    <system:String x:Key="ShowAllEntries">Показати всі Записи</system:String>
+    <system:String x:Key="FiltersFormat">{0} фільтрів</system:String>
+    <system:String x:Key="Deleted">Видалено</system:String>
+    <system:String x:Key="Unsigned">Без Підпису</system:String>
+    
+    <!-- Toggle Button -->
+    <system:String x:Key="ShowRunCount">Показати Помилки</system:String>
+    
+    <!-- DataGrid Headers -->
+    <system:String x:Key="TimestampUTC">Час (UTC)</system:String>
+    <system:String x:Key="TimestampLocal">Час (Місцевий)</system:String>
+    <system:String x:Key="RunCount">Лічильник Запусків</system:String>
+    <system:String x:Key="Filesize">Розмір Файлу</system:String>
+    <system:String x:Key="AllowDebug">Дозволити Налагодження</system:String>
+    <system:String x:Key="Sig">Підп</system:String>
+    
+    <!-- Entry Count -->
+    <system:String x:Key="EntriesFormat">{0} / {1} Записів</system:String>
+    <system:String x:Key="Entries">Записів</system:String>
+    <system:String x:Key="ClearFilters">Очистити фільтри</system:String>
+
+</ResourceDictionary>

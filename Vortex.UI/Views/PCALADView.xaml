@@ -1,0 +1,830 @@
+<Page x:Class="Vortex.UI.Views.PCALADView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:vm="clr-namespace:Vortex.UI.ViewModels"
+      xmlns:converters="clr-namespace:Vortex.UI.Converters"
+      Title="{DynamicResource PCALADTitle}"
+      Background="Transparent">
+
+    <Page.Resources>
+        <!-- Converters -->
+        <converters:RowForegroundConverter x:Key="RowForegroundConverter"/>
+
+        <!-- TextBox Style with White Border and No Hover -->
+        <Style x:Key="WhiteBorderTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#666666"/>
+                                <Setter Property="BorderBrush" Value="#666666"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style x:Key="PCAComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      Grid.Column="0"
+                                                      Margin="8,0,0,0"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                      IsHitTestVisible="False"/>
+                                    <ToggleButton x:Name="ToggleButton"
+                                                  Grid.Column="0"
+                                                  Grid.ColumnSpan="2"
+                                                  Background="Transparent"
+                                                  BorderBrush="Transparent"
+                                                  Focusable="false"
+                                                  IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ClickMode="Press">
+                                        <ToggleButton.Template>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Grid Background="Transparent">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="20"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Path x:Name="Arrow"
+                                                          Grid.Column="1"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Data="M 0 0 L 4 4 L 8 0 Z"
+                                                          Fill="White"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </ToggleButton.Template>
+                                    </ToggleButton>
+                                    <Popup x:Name="Popup"
+                                           Placement="Bottom"
+                                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                                           AllowsTransparency="True"
+                                           Focusable="False"
+                                           PopupAnimation="Slide">
+                                        <Grid x:Name="DropDown"
+                                              SnapsToDevicePixels="True"
+                                              MinWidth="{TemplateBinding ActualWidth}"
+                                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                            <Border x:Name="DropDownBorder"
+                                                    Background="#000000"
+                                                    BorderBrush="White"
+                                                    BorderThickness="1">
+                                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                                    <ScrollViewer.Resources>
+                                                        <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomScrollBar}"/>
+                                                    </ScrollViewer.Resources>
+                                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Grid>
+                                    </Popup>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#1A1A1A"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#666666"/>
+                                <Setter Property="BorderBrush" Value="#666666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ComboBoxItem Style -->
+        <Style x:Key="PCAComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#3A3A3A"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#252525"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Navigation Button Styles -->
+        <Style x:Key="NavigationButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"
+                                Width="{TemplateBinding Width}" 
+                                Height="{TemplateBinding Height}">
+                            <ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1A1A1A"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ContentPresenter" Property="Opacity" Value="0.4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom DataGrid Style with Selected Row -->
+        <Style x:Key="PCADataGridStyle" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource VortexDataGridStyle}">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Style.Resources>
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomScrollBar}"/>
+            </Style.Resources>
+        </Style>
+
+        <!-- Custom DataGrid Cell Style - Completely Overrides Global Style -->
+        <Style x:Key="PCADataGridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Height" Value="27"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Foreground}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border x:Name="CellBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Details DataGrid Cell Style -->
+        <Style x:Key="DetailsDataGridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Height" Value="27"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border x:Name="CellBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Custom DataGrid Row Style with Color Coding - Completely Overrides Global -->
+        <Style x:Key="PCADataGridRowStyle" TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource RowForegroundConverter}">
+                        <Binding Path="FileStatus"/>
+                        <Binding Path="SignatureStatus"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRow}">
+                        <Border x:Name="DGR_Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
+                            <SelectiveScrollingGrid>
+                                <SelectiveScrollingGrid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </SelectiveScrollingGrid.ColumnDefinitions>
+                                <SelectiveScrollingGrid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </SelectiveScrollingGrid.RowDefinitions>
+                                <DataGridCellsPresenter Grid.Column="1"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                        TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                <DataGridDetailsPresenter Grid.Column="1"
+                                                          Grid.Row="1"
+                                                          SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                          Visibility="{TemplateBinding DetailsVisibility}"
+                                                          TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                <DataGridRowHeader Grid.RowSpan="2"
+                                                   SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                   Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                            </SelectiveScrollingGrid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#252525"/>
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource RowForegroundConverter}">
+                                <Binding Path="FileStatus"/>
+                                <Binding Path="SignatureStatus"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#1A1A1A"/>
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource RowForegroundConverter}">
+                                <Binding Path="FileStatus"/>
+                                <Binding Path="SignatureStatus"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#252525"/>
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource RowForegroundConverter}">
+                                <Binding Path="FileStatus"/>
+                                <Binding Path="SignatureStatus"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Details DataGrid Row Style -->
+        <Style x:Key="DetailsDataGridRowStyle" TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRow}">
+                        <Border x:Name="DGR_Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
+                            <SelectiveScrollingGrid>
+                                <SelectiveScrollingGrid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </SelectiveScrollingGrid.ColumnDefinitions>
+                                <SelectiveScrollingGrid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </SelectiveScrollingGrid.RowDefinitions>
+                                <DataGridCellsPresenter Grid.Column="1"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                        TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                <DataGridDetailsPresenter Grid.Column="1"
+                                                          Grid.Row="1"
+                                                          SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                          Visibility="{TemplateBinding DetailsVisibility}"
+                                                          TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                <DataGridRowHeader Grid.RowSpan="2"
+                                                   SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                   Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                            </SelectiveScrollingGrid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#252525"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#1A1A1A"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#252525"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Border Background="#000000" CornerRadius="0,0,8,8">
+        <Grid>
+            <!-- Main Content with Margin -->
+            <Grid Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Top Controls: Search Bars and Buttons -->
+                <Border Grid.Row="0"
+                Padding="8,6"
+                Margin="0,0,0,10">
+                    <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                        <!-- Time Display ComboBox - moved to the left -->
+                        <ComboBox x:Name="TimeDisplayComboBox"
+                              Style="{StaticResource PCAComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource PCAComboBoxItemStyle}"
+                              Width="150"
+                              Height="23"
+                              VerticalAlignment="Center"
+                              Margin="0,0,12,0"
+                              SelectionChanged="TimeDisplayComboBox_SelectionChanged">
+                            <!-- Items will be populated from code-behind -->
+                        </ComboBox>
+                        <ComboBox x:Name="SearchColumnComboBox"
+                              Style="{StaticResource PCAComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource PCAComboBoxItemStyle}"
+                              Width="150"
+                              Height="23"
+                              Margin="0,0,12,0"
+                              VerticalAlignment="Center"
+                              SelectionChanged="SearchColumnComboBox_SelectionChanged">
+                            <!-- Items will be populated from code-behind -->
+                        </ComboBox>
+                        <Grid Width="200" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <TextBox x:Name="SearchBox"
+                                 Style="{StaticResource WhiteBorderTextBoxStyle}"
+                                 TextChanged="SearchBox_TextChanged"
+                                 ToolTip="{DynamicResource SearchBySelectedColumn}"/>
+                            <TextBlock Text="{DynamicResource SearchBy}"
+                                   IsHitTestVisible="False"
+                                   Foreground="#666"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Size Filter Min -->
+                        <Grid Width="70" Margin="0,0,6,0" VerticalAlignment="Center">
+                            <TextBox x:Name="SizeMinBox"
+                                 Style="{StaticResource WhiteBorderTextBoxStyle}"
+                                 TextChanged="SizeFilterBox_TextChanged"
+                                 ToolTip="{DynamicResource MinimumFileSizeMB}"/>
+                            <TextBlock Text="{DynamicResource SizeGreater}"
+                                   IsHitTestVisible="False"
+                                   Foreground="#666"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=SizeMinBox}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Text, ElementName=SizeMinBox}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Size Filter Max -->
+                        <Grid Width="70" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <TextBox x:Name="SizeMaxBox"
+                                 Style="{StaticResource WhiteBorderTextBoxStyle}"
+                                 TextChanged="SizeFilterBox_TextChanged"
+                                 ToolTip="{DynamicResource MaximumFileSizeMB}"/>
+                            <TextBlock Text="{DynamicResource SizeLess}"
+                                   IsHitTestVisible="False"
+                                   Foreground="#666"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=SizeMaxBox}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Text, ElementName=SizeMaxBox}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Multi-Select Filter Dropdown -->
+                        <Border Width="180" Height="23" 
+                            BorderBrush="White" 
+                            BorderThickness="1" 
+                            Background="#000000"
+                            VerticalAlignment="Center"
+                            Margin="0,0,0,0">
+                            <Grid>
+                                <ToggleButton x:Name="FilterToggleButton"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          Padding="8,4"
+                                          HorizontalContentAlignment="Left"
+                                          Click="FilterToggleButton_Click">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton">
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontFamily" Value="Consolas"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ToggleButton">
+                                                        <Grid Background="Transparent">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="20"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" 
+                                                                   Text="{TemplateBinding Content}" 
+                                                                   Foreground="{TemplateBinding Foreground}"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="8,0,0,0"/>
+                                                            <Path Grid.Column="1"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"
+                                                              Data="M 0 0 L 4 4 L 8 0 Z"
+                                                              Fill="White"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                </ToggleButton>
+                                <Popup x:Name="FilterPopup"
+                                   StaysOpen="False"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=FilterToggleButton}"
+                                   IsOpen="{Binding IsChecked, ElementName=FilterToggleButton, Mode=TwoWay}"
+                                   AllowsTransparency="True">
+                                    <Border Background="#000000" 
+                                        BorderBrush="White" 
+                                        BorderThickness="1"
+                                        MinWidth="150">
+                                        <StackPanel>
+                                            <CheckBox x:Name="TodayCheckBox"
+                                                  Content="{DynamicResource Today}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                            <CheckBox x:Name="NoExeCheckBox"
+                                                  Content="{DynamicResource NoExe}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                            <CheckBox x:Name="NoDebugAllowedCheckBox"
+                                                  Content="{DynamicResource NoDebugAllowed}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                            <CheckBox x:Name="FilePresentCheckBox"
+                                                  Content="{DynamicResource FilePresent}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                            <CheckBox x:Name="DeletedCheckBox"
+                                                  Content="{DynamicResource FileDeleted}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                            <CheckBox x:Name="UnsignedCheckBox"
+                                                  Content="{DynamicResource FileUnsigned}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                            <CheckBox x:Name="FoundInUSNCheckBox"
+                                                  Content="{DynamicResource FoundInUSNFilter}"
+                                                  Margin="8,4"
+                                                  Checked="FilterCheckBox_Changed"
+                                                  Unchecked="FilterCheckBox_Changed"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Main Content: Two DataGrids -->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="190"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Top DataGrid -->
+                    <Grid Grid.Row="0" Margin="0,0,0,12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0"
+                            BorderBrush="#333333" 
+                            BorderThickness="1"
+                            Margin="0,0,0,0">
+                            <DataGrid x:Name="LadEntriesDataGrid"
+                              Style="{StaticResource PCADataGridStyle}"
+                              ItemContainerStyle="{StaticResource PCADataGridRowStyle}"
+                              CellStyle="{StaticResource PCADataGridCellStyle}"
+                              ItemsSource="{Binding LadEntries}"
+                              AutoGenerateColumns="False"
+                              CanUserResizeColumns="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              VirtualizingPanel.VirtualizationMode="Recycling"
+                              SelectionChanged="LadEntriesDataGrid_SelectionChanged">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu Style="{StaticResource VortexDataGridContextMenuStyle}">
+                                    <MenuItem Header="{DynamicResource CopyValue}" Click="CopyValue_Click"/>
+                                    <MenuItem Header="{DynamicResource CopyRow}" Click="CopyRow_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{DynamicResource LastExecutedTimeUTC}" Binding="{Binding LastExecutedTimeUtc}" Width="190"/>
+                                <DataGridTextColumn Header="{DynamicResource LastExecutedTimeLocal}" Binding="{Binding LastExecutedTimeLocal}" Width="190"/>
+                                <DataGridTextColumn Header="{DynamicResource FullPath}" Binding="{Binding FullPath}" Width="715"/>
+                                <DataGridTextColumn Header="{DynamicResource Filesize}" Binding="{Binding FilesizeInMB}" Width="95"/>
+                                <DataGridTemplateColumn Header="{DynamicResource FoundInUSN}" Width="100" SortMemberPath="FoundInUSN">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding FoundInUSNDisplay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{DynamicResource AllowDebug}" Binding="{Binding IsDebugAllowed}" Width="85"/>
+                                <DataGridTextColumn Header="{DynamicResource Status}" Binding="{Binding FileStatus}" Width="70"/>
+                                <DataGridTextColumn Header="{DynamicResource Sig}" Binding="{Binding SignatureStatus}" Width="80"/>
+                            </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+
+                        <!-- Entry Count Status Bar -->
+                        <Border Grid.Row="1" 
+                                Background="#252525"
+                                BorderBrush="#333333"
+                                BorderThickness="1,0,1,1"
+                                Height="25">
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                <TextBlock x:Name="EntryCountTextBlock"
+                                           Foreground="White"
+                                           FontFamily="Consolas"
+                                           FontSize="12"
+                                           VerticalAlignment="Center">
+                                    <Run x:Name="EntryCountRun" Text="0 / 0"/>
+                                    <Run Text=" "/>
+                                    <Run x:Name="EntriesLabelRun"/>
+                                </TextBlock>
+                                <TextBlock Text="     "
+                                           Foreground="White"
+                                           FontFamily="Consolas"
+                                           FontSize="12"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock VerticalAlignment="Center">
+                                    <Hyperlink x:Name="ClearFiltersLink"
+                                              TextDecorations="None"
+                                              Foreground="#6495ed"
+                                              Cursor="Hand"
+                                              Click="ClearFiltersLink_Click">
+                                        <Run x:Name="ClearFiltersRun"/>
+                                    </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Bottom DataGrids: Split into two -->
+                    <Grid Grid.Row="1" Margin="0,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left Bottom DataGrid - Non-Time Data -->
+                        <Border Grid.Column="0"
+                            BorderBrush="#333333" 
+                            BorderThickness="1">
+                            <DataGrid x:Name="DetailsDataGrid"
+                                  Style="{StaticResource PCADataGridStyle}"
+                                  ItemContainerStyle="{StaticResource DetailsDataGridRowStyle}"
+                                  CellStyle="{StaticResource DetailsDataGridCellStyle}"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeColumns="False"
+                                  IsReadOnly="True">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Style="{StaticResource VortexDataGridContextMenuStyle}">
+                                        <MenuItem Header="{DynamicResource CopyValue}" Click="CopyValue_Click"/>
+                                        <MenuItem Header="{DynamicResource CopyRow}" Click="CopyRow_Click"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="{DynamicResource Info}" Binding="{Binding Info}" Width="200"/>
+                                    <DataGridTemplateColumn Header="{DynamicResource Value}" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Value}"/>
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock x:Name="VtLink" Visibility="Collapsed">
+                                                    <Hyperlink NavigateUri="{Binding Value}"
+                                                              RequestNavigate="VirusTotalLink_RequestNavigate"
+                                                              TextDecorations="None"
+                                                              Foreground="#6495ed"
+                                                              Cursor="Hand">
+                                                        <Run Text="(VirusTotal)"/>
+                                                    </Hyperlink>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Info}" Value="MD5 Hash">
+                                                        <Setter TargetName="VtLink" Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+
+                        <!-- Right Bottom DataGrid - Time Data -->
+                        <Border Grid.Column="2"
+                            BorderBrush="#333333" 
+                            BorderThickness="1">
+                            <DataGrid x:Name="TimestampsDataGrid"
+                                  Style="{StaticResource PCADataGridStyle}"
+                                  ItemContainerStyle="{StaticResource DetailsDataGridRowStyle}"
+                                  CellStyle="{StaticResource DetailsDataGridCellStyle}"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeColumns="False"
+                                  IsReadOnly="True">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Style="{StaticResource VortexDataGridContextMenuStyle}">
+                                        <MenuItem Header="{DynamicResource CopyValue}" Click="CopyValue_Click"/>
+                                        <MenuItem Header="{DynamicResource CopyRow}" Click="CopyRow_Click"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="{DynamicResource Info}" Binding="{Binding Info}" Width="200"/>
+                                    <DataGridTextColumn Header="{DynamicResource Timestamp}" Binding="{Binding Value}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Page>

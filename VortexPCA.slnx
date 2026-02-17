@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="EntryEnhancer/EntryEnhancer.csproj" Id="2d86fcb5-312e-4af2-935c-b05eeeaf1cb2" />
+  <Project Path="USNEnhancer/USNEnhance.csproj" Id="86ff03fe-30cc-4377-ae2a-c90480458f14" />
+  <Project Path="Vortex.UI/Vortex.UI.csproj" Id="86a2c2b4-61c3-46d7-b24e-f941e33b11bc" />
+  <Project Path="VortexLocalPCA/VortexLocalPCA.csproj" Id="cae9afc3-babb-4bec-aa22-515f4c68bb3c" />
+</Solution>

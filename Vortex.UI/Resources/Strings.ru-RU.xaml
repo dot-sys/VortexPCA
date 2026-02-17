@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main Window -->
+    <system:String x:Key="Language">Язык</system:String>
+    <system:String x:Key="Refresh">Обновить</system:String>
+    <system:String x:Key="Minimize">Свернуть</system:String>
+    <system:String x:Key="Close">Закрыть</system:String>
+
+    <!-- Welcome View -->
+	<system:String x:Key="VortexViewer">Vortex PCA Analyzer</system:String>
+    <system:String x:Key="StartTrace">Начать Анализ</system:String>
+
+    <!-- Analysis Status Messages -->
+    <system:String x:Key="StartingAnalysis">Начало Анализа</system:String>
+    <system:String x:Key="ParsingLocalPCAEntries">Парсинг Локальных PCA Записей</system:String>
+    <system:String x:Key="SearchingUSNJournal">Поиск в USN Журнале Записей</system:String>
+    <system:String x:Key="FetchingMetadata">Получение Метаданных Записей</system:String>
+    <system:String x:Key="FinishedAnalysis">Анализ Завершен за {0} Секунд</system:String>
+
+    <!-- PCA Views - Detail Grids -->
+    <system:String x:Key="Value">Значение</system:String>
+    <system:String x:Key="Info">Информация</system:String>
+
+    <!-- Context Menu -->
+    <system:String x:Key="CopyValue">Копировать Значение</system:String>
+    <system:String x:Key="CopyRow">Копировать Строку</system:String>
+
+    <!-- Error Messages -->
+    <system:String x:Key="GeneralParsingError">Общая Ошибка Парсинга</system:String>
+    <system:String x:Key="IncorrectWindowsVersion">Версия Windows - Эта программа работает только для Win11 22H2 и выше</system:String>
+    <system:String x:Key="PCAFilesNotFound">PCA файлы не найдены</system:String>
+
+    <!-- PCA GDB View -->
+    <system:String x:Key="PCAGDBTitle">PCA GDB Записи</system:String>
+
+    <!-- PCA LAD View -->
+    <system:String x:Key="PCALADTitle">PCA LAD Записи</system:String>
+    <system:String x:Key="LastExecutedTimeUTC">Последнее Время Выполнения (UTC)</system:String>
+    <system:String x:Key="LastExecutedTimeLocal">Последнее Время Выполнения (Местное)</system:String>
+
+    <!-- Time Display ComboBox -->
+    <system:String x:Key="ShowLocalTime">Показать Местное Время</system:String>
+    <system:String x:Key="ShowUTCTime">Показать UTC Время</system:String>
+    <system:String x:Key="ShowBoth">Показать Оба</system:String>
+
+    <!-- Search Column ComboBox -->
+    <system:String x:Key="Timestamp">Время</system:String>
+    <system:String x:Key="ExecutedTime">Время Выполнения</system:String>
+    <system:String x:Key="FullPath">Полный Путь</system:String>
+    <system:String x:Key="EntryType">Тип Записи</system:String>
+    <system:String x:Key="ProcessName">Имя Процесса</system:String>
+    <system:String x:Key="Publisher">Издатель</system:String>
+    <system:String x:Key="Version">Версия</system:String>
+    <system:String x:Key="Status">Статус</system:String>
+    <system:String x:Key="Signature">Подпись</system:String>
+    <system:String x:Key="FoundInUSN">Найдено в USN</system:String>
+    
+    <!-- Search and Filter Controls -->
+    <system:String x:Key="SearchBy">Поиск по...</system:String>
+    <system:String x:Key="SearchBySelectedColumn">Поиск по выбранному столбцу</system:String>
+    <system:String x:Key="MinimumFileSizeMB">Минимальный размер файла в МБ</system:String>
+    <system:String x:Key="MaximumFileSizeMB">Максимальный размер файла в МБ</system:String>
+    <system:String x:Key="SizeGreater">Размер &gt;</system:String>
+    <system:String x:Key="SizeLess">&lt; Размер</system:String>
+    
+    <!-- Filter Checkboxes -->
+    <system:String x:Key="Today">Сегодня</system:String>
+    <system:String x:Key="NoExe">Без exe</system:String>
+    <system:String x:Key="NoProcessName">Без Имени Процесса</system:String>
+    <system:String x:Key="NoPublisher">Без Издателя</system:String>
+    <system:String x:Key="NoVersionInfo">Без Информации о Версии</system:String>
+    <system:String x:Key="NoDebugAllowed">Без Разрешения Отладки</system:String>
+    <system:String x:Key="FilePresent">Файл Присутствует</system:String>
+    <system:String x:Key="FileDeleted">Файл Удален</system:String>
+    <system:String x:Key="FileUnsigned">Файл Без Подписи</system:String>
+    <system:String x:Key="FoundInUSNFilter">Найдено в USN</system:String>
+    <system:String x:Key="ShowAllEntries">Показать все Записи</system:String>
+    <system:String x:Key="FiltersFormat">{0} фильтров</system:String>
+    <system:String x:Key="Deleted">Удален</system:String>
+    <system:String x:Key="Unsigned">Без Подписи</system:String>
+    
+    <!-- Toggle Button -->
+    <system:String x:Key="ShowRunCount">Показать Ошибки</system:String>
+    
+    <!-- DataGrid Headers -->
+    <system:String x:Key="TimestampUTC">Время (UTC)</system:String>
+    <system:String x:Key="TimestampLocal">Время (Местное)</system:String>
+    <system:String x:Key="RunCount">Счетчик Запусков</system:String>
+    <system:String x:Key="Filesize">Размер Файла</system:String>
+    <system:String x:Key="AllowDebug">Разрешить Отладку</system:String>
+    <system:String x:Key="Sig">Подп</system:String>
+    
+    <!-- Entry Count -->
+    <system:String x:Key="EntriesFormat">{0} / {1} Записей</system:String>
+    <system:String x:Key="Entries">Записей</system:String>
+    <system:String x:Key="ClearFilters">Очистить фильтры</system:String>
+
+</ResourceDictionary>

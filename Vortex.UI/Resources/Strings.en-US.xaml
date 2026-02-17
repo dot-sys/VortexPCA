@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main Window -->
+    <system:String x:Key="Language">Language</system:String>
+    <system:String x:Key="Refresh">Refresh</system:String>
+    <system:String x:Key="Minimize">Minimize</system:String>
+    <system:String x:Key="Close">Close</system:String>
+
+    <!-- Welcome View -->
+    <system:String x:Key="VortexViewer">Vortex PCA Analyzer</system:String>
+    <system:String x:Key="StartTrace">Start Analyzing</system:String>
+
+    <!-- Analysis Status Messages -->
+    <system:String x:Key="StartingAnalysis">Starting Analysis</system:String>
+    <system:String x:Key="ParsingLocalPCAEntries">Parsing Local PCA Entries</system:String>
+    <system:String x:Key="SearchingUSNJournal">Searching USN Journal for Entries</system:String>
+    <system:String x:Key="FetchingMetadata">Fetching Metadata of Entries</system:String>
+    <system:String x:Key="FinishedAnalysis">Finished Analyzing in {0} Seconds</system:String>
+
+    <!-- PCA Views - Detail Grids -->
+    <system:String x:Key="Value">Value</system:String>
+    <system:String x:Key="Info">Info</system:String>
+
+    <!-- Context Menu -->
+    <system:String x:Key="CopyValue">Copy Value</system:String>
+    <system:String x:Key="CopyRow">Copy Row</system:String>
+
+    <!-- Error Messages -->
+    <system:String x:Key="GeneralParsingError">General Parsing Error</system:String>
+    <system:String x:Key="IncorrectWindowsVersion">Windows Version - This program only works for Win11 22H2 and above</system:String>
+    <system:String x:Key="PCAFilesNotFound">PCA files not found</system:String>
+
+    <!-- PCA GDB View -->
+    <system:String x:Key="PCAGDBTitle">PCA GDB Entries</system:String>
+
+    <!-- PCA LAD View -->
+    <system:String x:Key="PCALADTitle">PCA LAD Entries</system:String>
+    <system:String x:Key="LastExecutedTimeUTC">Last Executed Time (UTC)</system:String>
+    <system:String x:Key="LastExecutedTimeLocal">Last Executed Time (Local)</system:String>
+
+    <!-- Time Display ComboBox -->
+    <system:String x:Key="ShowLocalTime">Show Local Time</system:String>
+    <system:String x:Key="ShowUTCTime">Show UTC Time</system:String>
+    <system:String x:Key="ShowBoth">Show Both</system:String>
+
+    <!-- Search Column ComboBox -->
+    <system:String x:Key="Timestamp">Timestamp</system:String>
+    <system:String x:Key="ExecutedTime">Executed Time</system:String>
+    <system:String x:Key="FullPath">Full Path</system:String>
+    <system:String x:Key="EntryType">Entry Type</system:String>
+    <system:String x:Key="ProcessName">Process Name</system:String>
+    <system:String x:Key="Publisher">Publisher</system:String>
+    <system:String x:Key="Version">Version</system:String>
+    <system:String x:Key="Status">Status</system:String>
+    <system:String x:Key="Signature">Signature</system:String>
+    <system:String x:Key="FoundInUSN">FoundInUSN</system:String>
+
+    <!-- Search and Filter Controls -->
+    <system:String x:Key="SearchBy">Search by...</system:String>
+    <system:String x:Key="SearchBySelectedColumn">Search by selected column</system:String>
+    <system:String x:Key="MinimumFileSizeMB">Minimum file size in MB</system:String>
+    <system:String x:Key="MaximumFileSizeMB">Maximum file size in MB</system:String>
+    <system:String x:Key="SizeGreater">Size &gt;</system:String>
+    <system:String x:Key="SizeLess">&lt; Size</system:String>
+
+    <!-- Filter Checkboxes -->
+    <system:String x:Key="Today">Today</system:String>
+    <system:String x:Key="NoExe">No exe</system:String>
+    <system:String x:Key="NoProcessName">No Process Name</system:String>
+    <system:String x:Key="NoPublisher">No Publisher</system:String>
+    <system:String x:Key="NoVersionInfo">No Version Info</system:String>
+    <system:String x:Key="NoDebugAllowed">No Debug Allowed</system:String>
+    <system:String x:Key="FilePresent">File Present</system:String>
+    <system:String x:Key="FileDeleted">File Deleted</system:String>
+    <system:String x:Key="FileUnsigned">File Unsigned</system:String>
+    <system:String x:Key="FoundInUSNFilter">Found in USN</system:String>
+    <system:String x:Key="ShowAllEntries">Show all Entries</system:String>
+    <system:String x:Key="FiltersFormat">{0} filters</system:String>
+    <system:String x:Key="Deleted">Deleted</system:String>
+    <system:String x:Key="Unsigned">Unsigned</system:String>
+
+    <!-- Toggle Button -->
+    <system:String x:Key="ShowRunCount">Show Error Count</system:String>
+
+    <!-- DataGrid Headers -->
+    <system:String x:Key="TimestampUTC">Timestamp (UTC)</system:String>
+    <system:String x:Key="TimestampLocal">Timestamp (Local)</system:String>
+    <system:String x:Key="RunCount">Run Count</system:String>
+    <system:String x:Key="Filesize">Filesize</system:String>
+    <system:String x:Key="AllowDebug">AllowDebug</system:String>
+    <system:String x:Key="Sig">Sig</system:String>
+
+    <!-- Entry Count -->
+    <system:String x:Key="EntriesFormat">{0} / {1} Entries</system:String>
+    <system:String x:Key="Entries">Entries</system:String>
+    <system:String x:Key="ClearFilters">Clear Filters</system:String>
+
+</ResourceDictionary>

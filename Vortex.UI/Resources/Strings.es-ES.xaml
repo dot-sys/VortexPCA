@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main Window -->
+    <system:String x:Key="Language">Idioma</system:String>
+    <system:String x:Key="Refresh">Actualizar</system:String>
+    <system:String x:Key="Minimize">Minimizar</system:String>
+    <system:String x:Key="Close">Cerrar</system:String>
+
+    <!-- Welcome View -->
+	<system:String x:Key="VortexViewer">Vortex PCA Analyzer</system:String>
+    <system:String x:Key="StartTrace">Iniciar Análisis</system:String>
+
+    <!-- Analysis Status Messages -->
+    <system:String x:Key="StartingAnalysis">Iniciando Análisis</system:String>
+    <system:String x:Key="ParsingLocalPCAEntries">Analizando Entradas PCA Locales</system:String>
+    <system:String x:Key="SearchingUSNJournal">Buscando Entradas en el Diario USN</system:String>
+    <system:String x:Key="FetchingMetadata">Obteniendo Metadatos de Entradas</system:String>
+    <system:String x:Key="FinishedAnalysis">Análisis Completado en {0} Segundos</system:String>
+
+    <!-- PCA Views - Detail Grids -->
+    <system:String x:Key="Value">Valor</system:String>
+    <system:String x:Key="Info">Información</system:String>
+
+    <!-- Context Menu -->
+    <system:String x:Key="CopyValue">Copiar Valor</system:String>
+    <system:String x:Key="CopyRow">Copiar Fila</system:String>
+
+    <!-- Error Messages -->
+    <system:String x:Key="GeneralParsingError">Error General de Análisis</system:String>
+    <system:String x:Key="IncorrectWindowsVersion">Versión de Windows - Este programa solo funciona para Win11 22H2 y superior</system:String>
+    <system:String x:Key="PCAFilesNotFound">Archivos PCA no encontrados</system:String>
+
+    <!-- PCA GDB View -->
+    <system:String x:Key="PCAGDBTitle">Entradas PCA GDB</system:String>
+
+    <!-- PCA LAD View -->
+    <system:String x:Key="PCALADTitle">Entradas PCA LAD</system:String>
+    <system:String x:Key="LastExecutedTimeUTC">Última Hora de Ejecución (UTC)</system:String>
+    <system:String x:Key="LastExecutedTimeLocal">Última Hora de Ejecución (Local)</system:String>
+    
+    <!-- Time Display ComboBox -->
+    <system:String x:Key="ShowLocalTime">Mostrar Hora Local</system:String>
+    <system:String x:Key="ShowUTCTime">Mostrar Hora UTC</system:String>
+    <system:String x:Key="ShowBoth">Mostrar Ambas</system:String>
+    
+    <!-- Search Column ComboBox -->
+    <system:String x:Key="Timestamp">Marca de Tiempo</system:String>
+    <system:String x:Key="ExecutedTime">Tiempo de Ejecución</system:String>
+    <system:String x:Key="FullPath">Ruta Completa</system:String>
+    <system:String x:Key="EntryType">Tipo de Entrada</system:String>
+    <system:String x:Key="ProcessName">Nombre del Proceso</system:String>
+    <system:String x:Key="Publisher">Editor</system:String>
+    <system:String x:Key="Version">Versión</system:String>
+    <system:String x:Key="Status">Estado</system:String>
+    <system:String x:Key="Signature">Firma</system:String>
+    <system:String x:Key="FoundInUSN">Encontrado en USN</system:String>
+    
+    <!-- Search and Filter Controls -->
+    <system:String x:Key="SearchBy">Buscar por...</system:String>
+    <system:String x:Key="SearchBySelectedColumn">Buscar por columna seleccionada</system:String>
+    <system:String x:Key="MinimumFileSizeMB">Tamaño mínimo del archivo en MB</system:String>
+    <system:String x:Key="MaximumFileSizeMB">Tamaño máximo del archivo en MB</system:String>
+    <system:String x:Key="SizeGreater">Tamaño &gt;</system:String>
+    <system:String x:Key="SizeLess">&lt; Tamaño</system:String>
+    
+    <!-- Filter Checkboxes -->
+    <system:String x:Key="Today">Hoy</system:String>
+    <system:String x:Key="NoExe">Sin exe</system:String>
+    <system:String x:Key="NoProcessName">Sin Nombre de Proceso</system:String>
+    <system:String x:Key="NoPublisher">Sin Editor</system:String>
+    <system:String x:Key="NoVersionInfo">Sin Información de Versión</system:String>
+    <system:String x:Key="NoDebugAllowed">Sin Depuración Permitida</system:String>
+    <system:String x:Key="FilePresent">Archivo Presente</system:String>
+    <system:String x:Key="FileDeleted">Archivo Eliminado</system:String>
+    <system:String x:Key="FileUnsigned">Archivo Sin Firmar</system:String>
+    <system:String x:Key="FoundInUSNFilter">Encontrado en USN</system:String>
+    <system:String x:Key="ShowAllEntries">Mostrar Todas las Entradas</system:String>
+    <system:String x:Key="FiltersFormat">{0} filtros</system:String>
+    <system:String x:Key="Deleted">Eliminado</system:String>
+    <system:String x:Key="Unsigned">Sin Firmar</system:String>
+    
+    <!-- Toggle Button -->
+    <system:String x:Key="ShowRunCount">Mostrar Errores</system:String>
+    
+    <!-- DataGrid Headers -->
+    <system:String x:Key="TimestampUTC">Marca de Tiempo (UTC)</system:String>
+    <system:String x:Key="TimestampLocal">Marca de Tiempo (Local)</system:String>
+    <system:String x:Key="RunCount">Contador de Ejecuciones</system:String>
+    <system:String x:Key="Filesize">Tamaño del Archivo</system:String>
+    <system:String x:Key="AllowDebug">Permitir Depuración</system:String>
+    <system:String x:Key="Sig">Firma</system:String>
+    
+    <!-- Entry Count -->
+    <system:String x:Key="EntriesFormat">{0} / {1} Entradas</system:String>
+    <system:String x:Key="Entries">Entradas</system:String>
+    <system:String x:Key="ClearFilters">Borrar filtros</system:String>
+
+</ResourceDictionary>
